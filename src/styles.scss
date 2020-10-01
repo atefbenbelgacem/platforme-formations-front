@@ -1,0 +1,33 @@
+@import '~@angular/material/theming';
+@include mat-core();
+$bv-dark: (100: #00b3e2, 200: #03A9F4, contrast: ( Main: #fff, Light: #fff, Dark: #fff));
+$primary-color-dark: mat-palette($bv-dark, 100);
+$primary-color-light:mat-palette($mat-deep-purple, 800);
+$accent-color:mat-palette($bv-dark, 200);
+$inside-warn: mat-palette($mat-red, 500, A200, A700);
+$inside-theme-dark: mat-dark-theme($primary-color-dark, $accent-color, $inside-warn);
+$inside-theme-light: mat-light-theme($primary-color-light, $accent-color, $inside-warn);
+.color-scheme-dark {
+    @include angular-material-theme($inside-theme-dark);
+    // Example how you can easy add own custom styles
+    .personLink {
+        cursor: pointer;
+    }
+    tr.example-element-row:not(.example-expanded-row):hover {
+        background: #1e1e2d;
+        cursor: pointer;
+    }
+}
+
+.color-scheme-light {
+    @include angular-material-theme($inside-theme-light);
+    // Example how you can easy add own custom styles
+    .personLink {
+        cursor: pointer;
+        color: #03A9F4;
+    }
+    tr.example-element-row:not(.example-expanded-row):hover {
+        background: lightgray;
+        cursor: pointer;
+    }
+}
