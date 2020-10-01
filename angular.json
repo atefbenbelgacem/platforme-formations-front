@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "platforme-formations-front"
+    }
+  },
+  "defaultProject": "platforme-formations-front",
+  "cli": {
+    "analytics": "4f140121-ccc2-416d-99b5-8f64fd4ee937"
+  }
 }
