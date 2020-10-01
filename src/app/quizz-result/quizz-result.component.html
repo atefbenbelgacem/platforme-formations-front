@@ -1,0 +1,37 @@
+<div class="overlay" *ngIf="dataLoading">
+    <div class="Center">
+        <mat-spinner diameter="50" style="margin:0 auto;"></mat-spinner>
+    </div>
+</div>
+
+<div class="intro-container" fxLayoutAlign="center center" *ngIf="currentResult && displayLayout">
+    <mat-card class="mat-card-container mat-elevation-z8" fxLayout="column" fxLayoutAlign="center">
+        <mat-card-header fxLayoutAlign="center center">
+            <mat-card-title style="text-align: center;">{{currentResult.session.title}} Quiz</mat-card-title>
+            <mat-card-subtitle fxLayoutAlign="center center" fxLayout="column">
+                <span>your score is {{currentResult.score}}/{{currentResult.session.quizz.length}}</span>
+            </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <p *ngIf="getRecommendation === 1">
+                Congratulation, you have scored a full mark on This Quiz, you must be a master of {{currentResult.session.title}}
+            </p>
+            <p *ngIf="getRecommendation === 2">
+                Congratulation, you've got more than half of the questions right, not so bad after all huh!
+            </p>
+            <p *ngIf="getRecommendation === 3">
+                I guess it went pretty bad for you this time, I recommend you to practice more before you pass any other Quiz!
+            </p>
+            <p>
+                You may go back to the training page now. You can always review your results by going to the quiz section from your main menu.
+            </p>
+        </mat-card-content>
+        <mat-card-actions fxLayoutAlign="center center">
+            <button mat-raised-button type="button" color="primary" class="back-button" (click)="back()">
+                Back To Trainings Page
+                <mat-icon>exit_to_app</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</div>

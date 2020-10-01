@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>Quizz Question Action :: <strong>{{action}}</strong></h1>
+
+<mat-dialog-content>
+
+    <form [formGroup]="actionForm" (ngSubmit)="onSubmit()" fxFlex="100" fxLayout="column">
+
+        <mat-form-field>
+            <mat-label>Question</mat-label>
+            <input matInput formControlName="question" required #questionIinput maxlength="80" placeholder="enter question text">
+            <mat-hint align="end">{{questionIinput.value?.length || 0}}/80</mat-hint>
+            <mat-error>the question text is required</mat-error>
+        </mat-form-field>
+
+        <div formArrayName="answers" fxLayout="column" fxFlex>
+            <div *ngFor="let choice of answers.controls; index as i" fxLayout="row" fxLayoutAlign="center center">
+                <mat-form-field>
+                    <mat-label>Choice</mat-label>
+                    <input matInput [formControlName]="i" required placeholder="enter question choice">
+                    <mat-error>the question choice is required</mat-error>
+                </mat-form-field>
+                <mat-checkbox *ngIf="choice.value" [checked]="action === 'Update' && correctAnswers.includes(choice.value)" class="mt-2" (change)="markAnswer($event.checked, choice.value, i)">
+                </mat-checkbox>
+                <button type="button" color="warn" mat-button *ngIf="answers.controls.length>3" matSuffix mat-icon-button aria-label="Clear" (click)="deleteChoice(i, choice.value)">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+            <button mat-raised-button type="button" color="accent" [style.width.px]="150" (click)="addChoice()">
+                <span class="mr-2" style="color: white;">Add Choice</span>
+                <mat-icon style="color: white;">add</mat-icon>
+            </button>
+            <button mat-raised-button type="submit" color="primary" [style.width.px]="150">
+                <span>{{action}} Question</span>
+            </button>
+        </div>
+
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayoutAlign="space-evenly">
+    <button mat-raised-button (click)="closeDialog()">Cancel</button>
+</mat-dialog-actions>

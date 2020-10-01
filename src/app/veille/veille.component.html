@@ -1,0 +1,51 @@
+<div class="overlay" *ngIf="actionLoading">
+    <div class="Center">
+        <mat-spinner diameter="50" style="margin:0 auto;"></mat-spinner>
+    </div>
+</div>
+
+<div fxLayoutGap="10px" fxLayout="column" [ngStyle]="{'width' : '100%', 'margin-top.px' : '60'}" fxLayoutAlign="start center">
+
+    <div [ngStyle]="{'width' : '70%'}" fxLayout="column" fxLayoutGap="10px">
+
+        <div class="d-flex flex-row justify-content-start align-items-center">
+            <mat-form-field>
+                <mat-label>Filter Events</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Enter the event title" #filterInput>
+            </mat-form-field>
+        </div>
+
+        <div class="cards-container" *ngFor="let veille of filteredVeilles">
+
+            <mat-card class="example-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image" fxLayoutAlign="center center">
+                        <mat-icon color="warn">event</mat-icon>
+                    </div>
+                    <mat-card-title>{{veille.title | titlecase}}</mat-card-title>
+                    <mat-card-subtitle>
+                        Presenter :
+                        <button mat-raised-button (click)="openPersonDialog(veille.presenter)">
+                            {{veille.presenter.name | titlecase}} {{veille.presenter.lastName | titlecase}}
+                        </button>
+                    </mat-card-subtitle>
+                    <mat-card-subtitle fxLayoutGap="20px" fxLayout="row">
+                        <span>Date: {{veille.date | date: 'short'}}</span>
+                        <span>Duration: {{veille.duration.hours}}H{{veille.duration.minutes}}mn</span>
+                    </mat-card-subtitle>
+                    <mat-card-subtitle>Concerned Pole: {{veille.pole.name}}</mat-card-subtitle>
+                </mat-card-header>
+
+                <mat-card-content fxLayoutGap="20px" fxLayout="column">
+                    <div>
+                        <p>
+                            {{veille.description}}
+                        </p>
+                    </div>
+
+                </mat-card-content>
+            </mat-card>
+
+        </div>
+    </div>
+</div>

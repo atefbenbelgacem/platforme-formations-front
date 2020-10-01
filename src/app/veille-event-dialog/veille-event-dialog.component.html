@@ -1,0 +1,100 @@
+<h1 mat-dialog-title>Tech-Watch Table Action :: <strong>{{action}}</strong></h1>
+
+<mat-dialog-content>
+
+    <form [formGroup]="actionForm" (ngSubmit)="onSubmit()" fxFlex="100" fxLayout="column">
+
+        <mat-form-field>
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" required #titleIinput maxlength="30" placeholder="Ex. my awsome event">
+            <mat-hint align="end">{{titleIinput.value?.length || 0}}/30</mat-hint>
+            <mat-error>the event's title is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" required #descriptionIinput></textarea>
+            <mat-hint align="end">{{descriptionIinput.value?.length || 0}}</mat-hint>
+            <mat-error>the event's description is required</mat-error>
+        </mat-form-field>
+        <div fxLayout="column" class="mt-3">
+            <p class="mb-0">Tech-Watch Date&Time : </p>
+            <div fxLayout="row" formGroupName="datetime" fxLayout.xs="column" fxLayoutAlign="flex-start" fxLayoutGap="10px" fxLayoutGap.xs="0px" fxFlex="100">
+                <mat-form-field fxFlex="50">
+                    <mat-label>Date</mat-label>
+                    <input matInput required [matDatepicker]="picker" [matDatepickerFilter]="datesFilter" formControlName="date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error>the event's date is required</mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="50">
+                    <mat-label>Time</mat-label>
+                    <input matInput type="time" max='16:00' min='09:00' formControlName="time" required>
+                    <mat-error>the event's time is required</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div fxLayout="column" class="mt-3">
+            <p class="mb-0">Tech-Watch Duration : </p>
+            <div formGroupName="duration" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="flex-start" fxLayoutGap="20px" fxLayoutGap.xs="0px">
+                <mat-form-field>
+                    <mat-label>Hours</mat-label>
+                    <mat-select name="hours" formControlName="hours">
+                        <mat-option *ngFor="let choice of hoursChoice" [value]="choice.value">
+                            {{choice.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>please provide the event's duration</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Minutes</mat-label>
+                    <mat-select name="minutes" formControlName="minutes">
+                        <mat-option *ngFor="let choice of minutesChoice" [value]="choice.value">
+                            {{choice.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error>please provide the event's duration</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Concerned Pole</mat-label>
+            <mat-select name="poleSelect" formControlName="pole">
+                <mat-option *ngFor="let pole of poles" [value]="pole._id">
+                    {{pole.name}}
+                </mat-option>
+            </mat-select>
+            <mat-error>please provide the event's pole</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+            <mat-label>Presenter</mat-label>
+            <input matInput required placeholder="Choose a Presenter" [matAutocomplete]="autoTeacher" formControlName='presenter'>
+            <mat-error>please provide a presenter</mat-error>
+        </mat-form-field>
+
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" class="mt-4 mb-2">
+            <button mat-raised-button type="button" [style.width.px]="150" (click)="closeDialog()">
+                Cancel
+            </button>
+            <button mat-raised-button type="submit" color="primary" [style.width.px]="150">
+                <span>{{action}} Tech-Watch</span>
+            </button>
+        </div>
+
+    </form>
+    <mat-autocomplete #autoTeacher="matAutocomplete">
+        <mat-option *ngIf="isLoading" class="is-loading">
+            <mat-spinner diameter="50"></mat-spinner>
+        </mat-option>
+        <ng-container *ngIf="!isLoading">
+            <mat-option *ngFor="let user of filteredUsers" [value]="user.email">
+                <span>{{user.name}} {{user.lastName}}</span> |
+                <small>email: {{user.email}}</small>
+            </mat-option>
+        </ng-container>
+    </mat-autocomplete>
+
+</mat-dialog-content>

@@ -1,0 +1,30 @@
+<mat-dialog-content>
+    <form [formGroup]="actionForm" (ngSubmit)="onSubmit()" fxFlex="100">
+        <mat-form-field class="w-100">
+            <mat-label>Search User</mat-label>
+            <input matInput required placeholder="enter user email" [matAutocomplete]="autoTeacher" formControlName='user'>
+            <mat-error>please provide an email to search</mat-error>
+        </mat-form-field>
+
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" class="mt-4 mb-2">
+            <button mat-raised-button type="button" [style.width.px]="150" (click)="closeDialog()">
+                Cancel
+            </button>
+            <button mat-raised-button type="submit" color="primary" [style.width.px]="150">
+                <span>Add</span>
+            </button>
+        </div>
+
+    </form>
+    <mat-autocomplete #autoTeacher="matAutocomplete">
+        <mat-option *ngIf="isLoading" class="is-loading">
+            <mat-spinner diameter="50"></mat-spinner>
+        </mat-option>
+        <ng-container *ngIf="!isLoading">
+            <mat-option *ngFor="let user of filteredUsers" [value]="user.email">
+                <span>{{user.name}} {{user.lastName}}</span> |
+                <small>email: {{user.email}}</small>
+            </mat-option>
+        </ng-container>
+    </mat-autocomplete>
+</mat-dialog-content>

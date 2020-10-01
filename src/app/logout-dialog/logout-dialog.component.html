@@ -1,0 +1,31 @@
+<mat-dialog-content fxLayoutAlign="center" fxLayout="column">
+
+    <mat-card fxFlex="100" class="mat-elevation-z0">
+        <mat-card-header>
+            <div mat-card-avatar class="example-header-image" fxLayoutAlign="center center">
+                <mat-icon color="warn">person</mat-icon>
+            </div>
+            <mat-card-title>{{user.name | titlecase}} {{user.lastName | titlecase}}</mat-card-title>
+            <mat-card-subtitle>Platform {{user.roleName}}</mat-card-subtitle>
+            <mat-card-subtitle>{{user.email}}</mat-card-subtitle>
+            <mat-card-subtitle>Pole : {{user.pole.name}}</mat-card-subtitle>
+        </mat-card-header>
+    </mat-card>
+
+    <div fxLayoutAlign="start center" fxLayout="row" fxLayoutGap="20px">
+        <mat-icon>wb_sunny</mat-icon>
+        <mat-slide-toggle (change)="changeTheme($event.checked)" [checked]="isChecked" color="primary"></mat-slide-toggle>
+        <mat-icon>brightness_3</mat-icon>
+    </div>
+    <button mat-raised-button color="primary" class="mt-3 mb-2" (click)="doAction('userAccount')">
+        <span>My Account</span>
+    </button>
+</mat-dialog-content>
+
+<mat-divider [style.margin-top.px]="10"></mat-divider>
+
+<mat-dialog-actions fxLayoutAlign="center center">
+    <button mat-raised-button (click)="doAction('logout')">
+        <span>Sign Out</span>
+    </button>
+</mat-dialog-actions>

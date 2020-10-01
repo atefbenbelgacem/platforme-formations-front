@@ -1,0 +1,82 @@
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+
+
+    <mat-toolbar class="example-toolbar">
+
+        <button mat-stroked-button (click)="toggleSideNav()" class="example-app-name">
+            <mat-icon>{{menu_display}}</mat-icon>
+        </button>
+
+        <a routerLink="." href="" class="example-app-name mt-4" *ngIf="!mobileQuery.matches">
+            <img mat-card-image src="https://i.ibb.co/ZGwMb2Q/Webp-net-resizeimage.png" alt="Logo proxym-it">
+        </a>
+
+        <span class="example-fill-remaining-space"></span>
+
+        <div *ngIf="mobileQuery.matches">
+            <button mat-button [matMenuTriggerFor]="belowMenu" (menuOpened)="togleSecondMenu()" (menuClosed)="togleSecondMenu()">
+                <mat-icon>{{second_menu}}</mat-icon>
+            </button>
+
+            <mat-menu #belowMenu="matMenu" yPosition="below">
+                <button mat-menu-item (click)="_userProfile()">My Account</button>
+                <button mat-menu-item (click)="_logout()">LogOut</button>
+            </mat-menu>
+
+        </div>
+
+        <!-- main menu is here -->
+
+        <div *ngIf="!mobileQuery.matches" fxLayout="row">
+
+            <button mat-button (click)="openDialog($event)">
+                <span [style.font-size.px]="20">Hi, {{currentUser.name | titlecase}}</span>
+            </button>
+
+        </div>
+
+    </mat-toolbar>
+
+    <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+
+        <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" (closedStart)="isSideClosed()" (openedStart)="isSideOpened()" id="snav" [class.menu-open]="opened && !mobileQuery.matches" [class.menu-close]="!opened && !mobileQuery.matches"
+            [(opened)]="!mobileQuery.matches ? true : opened">
+
+            <mat-accordion fxFlexFill fxLayoutAlign="center start" fxLayout="column">
+                <div *ngFor="let item of menu" [ngStyle]="{'width': '100%'}">
+                    <mat-nav-list *ngIf="!item.children || item.children.length === 0" [disabled]="!opened">
+                        <mat-list-item>
+                            <a matLine [routerLink]=item.route fxLayoutAlign="start center" fxLayout="row" fxLayoutGap="20px" fxFlexFill>
+                                <mat-icon>{{item.iconName}}</mat-icon>
+                                <span *ngIf="opened">{{item.displayName}}</span>
+                            </a>
+                        </mat-list-item>
+                    </mat-nav-list>
+
+                    <mat-expansion-panel class="mat-elevation-z0" *ngIf="item.children && item.children.length > 0" [disabled]="!opened">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" fxFlexFill>
+                                <mat-icon>{{item.iconName}}</mat-icon>
+                                <span>{{item.displayName}}</span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <mat-nav-list>
+                            <mat-list-item *ngFor="let child of item.children">
+                                <a matLine [routerLink]=child.route fxLayoutAlign="start center" fxFlexFill fxLayoutGap="10px">
+                                    <mat-icon>{{child.iconName}}</mat-icon>
+                                    <span>{{child.displayName}}</span>
+                                </a>
+                            </mat-list-item>
+                        </mat-nav-list>
+                    </mat-expansion-panel>
+                </div>
+            </mat-accordion>
+        </mat-sidenav>
+
+        <mat-sidenav-content [ngStyle]="!mobileQuery.matches ? {'margin-left.px' : content_margin} : {'margin-left.px' : 0}" fxLayout="column">
+
+            <router-outlet></router-outlet>
+
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

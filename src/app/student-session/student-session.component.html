@@ -1,0 +1,58 @@
+<div fxLayoutGap="10px" fxLayout="column">
+
+    <table #myTable mat-table [dataSource]="sessionsDataSource" multiTemplateDataRows class="mat-elevation-z8">
+
+        <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef> Title </th>
+            <td mat-cell *matCellDef="let element"> {{element.title | titlecase}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="duration">
+            <th mat-header-cell *matHeaderCellDef> Duration </th>
+            <td mat-cell *matCellDef="let element"> {{element.duration.hours}}H{{element.duration.minutes}}mn </td>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef> Date </th>
+            <td mat-cell *matCellDef="let element"> {{element.date | date: 'short'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+                    <div fxLayout="row" fxLayout.xs="column" fxFlex [style.margin-bottom.px]="10">
+
+                        <div fxLayout="column" fxFlex="70" *ngIf="element.documents.length != 0">
+                            <div mat-subheader>Session Files :</div>
+
+                            <mat-list fxLayout="row wrap" fxLayoutAlign="flex-start" dense>
+                                <mat-list-item *ngFor="let file of element.documents" fxFlex="0 1 calc(33.3%)" [value]="file">
+                                    <mat-icon mat-list-icon>cloud_download</mat-icon>
+                                    <div mat-line>
+                                        <a download href="{{file.link}}" class="personLink" target="_blank">{{file.docTitle}}
+                                        </a>
+                                    </div>
+                                </mat-list-item>
+                            </mat-list>
+                        </div>
+
+                        <mat-divider [vertical]="true" *ngIf="element.documents.length != 0"></mat-divider>
+
+                        <div fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center" fxFlex *ngIf="element.quizz.length != 0">
+                            <button [disabled]="quizzSessionsIds.includes(element._id)" mat-raised-button color="primary" matTooltip="Take Quizzs" matTooltipPosition="after" (click)="goToQuiz(element._id)">
+                                <mat-icon style="color: white;">question_answer</mat-icon>
+                            </button>
+                            <p *ngIf="quizzSessionsIds.includes(element._id)">You've already answered this quiz</p>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row" [class.example-expanded-row]="expandedElement === element" (click)="expandedElement = expandedElement === element ? null : element">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    </table>
+</div>

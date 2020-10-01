@@ -1,0 +1,58 @@
+.mat-expansion-panel {
+    border-radius: 0px !important;
+    box-shadow: none !important;
+}
+
+.mat-expansion-panel-spacing {
+    margin: 0px;
+}
+
+.mat-expansion-panel-body {
+    padding: 0px;
+}
+
+.mat-expansion-panel-header {
+    height: 40px;
+    padding: 0px 24px 0px 16px;
+}
+
+.example-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.example-is-mobile .example-toolbar {
+    position: fixed;
+    z-index: 2;
+}
+
+.example-app-name {
+    margin-left: 30px;
+}
+
+.example-sidenav-container {
+    flex: 1;
+}
+
+.example-is-mobile .example-sidenav-container {
+    flex: 1 0 auto;
+}
+
+.example-fill-remaining-space {
+    flex: 1 1 auto;
+}
+
+#snav.menu-close {
+    width: 60px;
+    transition: all 0.2s linear;
+}
+
+#snav.menu-open {
+    width: 200px;
+    transition: all 0.2s linear;
+}

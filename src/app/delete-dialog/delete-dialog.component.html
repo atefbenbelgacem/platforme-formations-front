@@ -1,0 +1,21 @@
+<mat-dialog-content>
+    <p *ngIf="inputData && inputData.name">
+        Are you Sure to delete {{inputData.name | titlecase}} {{inputData.lastName | titlecase}}
+    </p>
+    <p *ngIf="inputData && inputData.title">
+        Are you Sure to delete {{inputData.title | titlecase}}
+    </p>
+
+    <p *ngIf="inputData && inputData.question">
+        Are you Sure to delete {{inputData.question}}
+    </p>
+
+    <p *ngIf="!inputData">
+        Are you Sure to delete The Selected Files
+    </p>
+
+</mat-dialog-content>
+<mat-dialog-actions fxLayoutAlign="space-evenly">
+    <button mat-raised-button (click)="closeDialog()">Cancel</button>
+    <button mat-raised-button color="warn" (click)="onSubmit()">Delete</button>
+</mat-dialog-actions>

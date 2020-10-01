@@ -1,0 +1,18 @@
+.example-card {
+    width: 100%;
+}
+
+.example-header-image {
+    border: 1px solid lightcyan;
+    font-weight: lighter;
+}
+
+.cards-container {
+    width: 100%;
+    margin-top: 25px;
+    margin-bottom: 25px
+}
+
+:host {
+    width: 100%;
+}

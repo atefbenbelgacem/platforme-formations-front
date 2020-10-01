@@ -1,0 +1,74 @@
+<div class="overlay" *ngIf="actionLoading">
+    <div class="Center">
+        <mat-spinner diameter="50" style="margin:0 auto;"></mat-spinner>
+    </div>
+</div>
+<div class="example-container" fxLayoutAlign="center">
+    <mat-card class="example-card" fxLayout="column" fxLayoutGap="40px">
+        <h6 *ngIf="isDisabled" style="text-align: center;">This quiz has already been answered by some or all the students of this session. I'm sorry but you cant add, modify or delete questions out of it no more for data consistency purposes, OBVIOUSLY!! </h6>
+        <div fxLayout="row" fxFlex fxLayoutAlign="space-evenly">
+            <div style="flex: 1 1 0%;" fxFlex>
+                <mat-form-field>
+                    <mat-label>Filter Questions</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Enter the question text, choices, ..." #filterInput>
+                </mat-form-field>
+            </div>
+
+            <div style="flex: 1 1 0%;" fxFlex fxLayoutAlign="end">
+                <button style="width: 150px;height: 40px;" mat-raised-button color="primary" matTooltip="Add new Question" matTooltipPosition="after" matTooltipHideDelay="400" (click)="openDialog('Add',{})" [disabled]="isDisabled" fxLayoutAlign="space-evenly">
+                    <span class="mr-2">New Question</span>
+                    <mat-icon>add_circle</mat-icon>
+                </button>
+            </div>
+
+
+        </div>
+
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort #quizzTable>
+                <!-- ID Column -->
+                <ng-container matColumnDef="index">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>
+                    <td mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="question">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Question </th>
+                    <td mat-cell *matCellDef="let element"> {{element.question}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> Action </th>
+                    <td mat-cell *matCellDef="let element" fxLayoutGap="20px">
+                        <button mat-raised-button color="accent" matTooltip="Edit Question" matTooltipPosition="left" matTooltipHideDelay="400" [disabled]="isDisabled" (click)="openDialog('Update',element)">
+                            <mat-icon style="color: white;">edit</mat-icon>
+                        </button>
+                        <button mat-raised-button color="warn" matTooltip="Delete Question" matTooltipPosition="left" matTooltipHideDelay="400" [disabled]="isDisabled" (click)="deleteRowData(element)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4" *ngIf="filterInput.value?.length !== 0">No data matching the filter "{{filterInput.value}}"
+                    </td>
+                    <td class="mat-cell" colspan="4" *ngIf="filterInput.value?.length === 0">No quizz for this session
+                    </td>
+                </tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+        </div>
+
+        <mat-card-actions fxLayoutAlign="center center">
+            <button mat-raised-button color="primary" matTooltip="save quizz & return to trainings page" matTooltipPosition="after" matTooltipHideDelay="400" (click)="doneQuizz()">
+                PUBLISH
+            </button>
+        </mat-card-actions>
+    </mat-card>
+
+</div>

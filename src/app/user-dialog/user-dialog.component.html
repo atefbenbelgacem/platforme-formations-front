@@ -1,0 +1,15 @@
+<mat-dialog-content fxLayoutAlign="center center">
+
+    <mat-card fxFlex="100">
+        <mat-card-header>
+            <div mat-card-avatar class="example-header-image" fxLayoutAlign="center center">
+                <mat-icon color="warn">person</mat-icon>
+            </div>
+            <mat-card-title>{{user.name | titlecase}} {{user.lastName | titlecase}}</mat-card-title>
+            <mat-card-subtitle>Platform {{user.roleName}}</mat-card-subtitle>
+            <mat-card-subtitle>{{user.email}}</mat-card-subtitle>
+            <mat-card-subtitle>Pole : {{user.pole.name}}</mat-card-subtitle>
+        </mat-card-header>
+    </mat-card>
+
+</mat-dialog-content>

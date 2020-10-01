@@ -1,0 +1,59 @@
+<div fxLayoutGap="10px" fxLayout="column" [ngStyle]="{'width' : '100%', 'margin-top.px' : '60'}" fxLayoutAlign="start center">
+
+    <div [ngStyle]="{'width' : '70%'}" fxLayout="column" fxLayoutGap="10px">
+
+        <div class="d-flex justify-content-start align-items-center">
+
+            <mat-form-field>
+                <mat-label>Filter Trainings</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Enter the training title" #filterInput>
+            </mat-form-field>
+
+        </div>
+
+        <div class="cards-container" *ngFor="let training of filteredTrainings">
+
+            <mat-card class="example-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image" fxLayoutAlign="center center">
+                        <mat-icon color="warn">schedule</mat-icon>
+                    </div>
+                    <mat-card-title>{{training.title | titlecase}}</mat-card-title>
+                    <mat-card-subtitle>{{training.subject}}</mat-card-subtitle>
+                    <mat-card-subtitle>
+                        Teacher :
+                        <button mat-raised-button (click)="openPersonDialog(training.teacher)">
+                            {{training.teacher.name | titlecase}} {{training.teacher.lastName | titlecase}}
+                        </button>
+                    </mat-card-subtitle>
+                </mat-card-header>
+
+                <mat-card-content fxLayoutGap="20px" fxLayout="column">
+
+                    <app-session *ngIf="_isTeacher()" [trainingId]="training._id" [sessions]="training.sessions">
+                    </app-session>
+
+                    <app-student-session *ngIf="!_isTeacher()" [trainingId]="training._id" [sessions]="training.sessions">
+                    </app-student-session>
+
+                    <div fxLayout="column" fxLayoutGap="10px">
+                        <span>Students : </span>
+
+                        <div class="d-flex flex-wrap" fxLayoutGap="10px">
+                            <div *ngFor="let student of training.students" fxLayoutAlign="center center">
+                                <a class="personLink" (click)="openPersonDialog(student)">
+                                    {{student.name | titlecase}} {{student.lastName | titlecase}}
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </mat-card-content>
+            </mat-card>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ColorSchemeService } from './shared/color-schema.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'platforme-formations-front';
+
+  constructor(private colorSchemeService: ColorSchemeService) {
+    // Load Color Scheme
+    this.colorSchemeService.load()
+  }
 }

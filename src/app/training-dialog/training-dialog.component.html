@@ -1,0 +1,71 @@
+<h1 mat-dialog-title>Trainings Actions :: <strong>{{action}}</strong></h1>
+
+<mat-dialog-content fxLayout="column">
+    <div fxLayout="column">
+
+        <form [formGroup]="actionForm" fxFlex="100" fxLayout="column">
+
+            <mat-form-field>
+                <mat-label>Enter Training title</mat-label>
+                <input matInput formControlName="title" required #titleIinput maxlength="30" placeholder="Ex. my awsome training" [(ngModel)]="local_data.title">
+                <mat-hint align="end">{{titleIinput.value?.length || 0}}/30</mat-hint>
+                <mat-error *ngIf="f.title.errors">the training's title is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Enter Training subject</mat-label>
+                <input matInput formControlName="subject" required #subjectIinput maxlength="50" placeholder="a short and precise description of the training contents" [(ngModel)]="local_data.subject">
+                <mat-hint align="end">{{subjectIinput.value?.length || 0}}/50</mat-hint>
+                <mat-error *ngIf="f.subject.errors">please provide a propper subject</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+                <mat-label>Enter Training teacher</mat-label>
+                <input matInput required placeholder="Choose a teacher" [matAutocomplete]="autoTeacher" formControlName='teacherInput'>
+                <mat-error *ngIf="f.teacherInput.errors">please provide a teacher</mat-error>
+            </mat-form-field>
+
+        </form>
+
+        <mat-autocomplete #autoTeacher="matAutocomplete">
+            <mat-option *ngIf="isLoading" class="is-loading">
+                <mat-spinner diameter="50"></mat-spinner>
+            </mat-option>
+            <ng-container *ngIf="!isLoading">
+                <mat-option *ngFor="let user of filteredUsers" [value]="user.email">
+                    <span>{{user.name}} {{user.lastName}}</span> |
+                    <small>email: {{user.email}}</small>
+                </mat-option>
+            </ng-container>
+        </mat-autocomplete>
+
+
+
+        <mat-form-field>
+            <mat-chip-list #chipList aria-label="Person selection">
+                <mat-chip *ngFor="let student of students;let indexOfelement=index;" [selectable]="selectable" [removable]="removable" (removed)="remove(indexOfelement)">
+                    {{student}}
+                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input matInput [formControl]="studentsCtrl" placeholder="Choose students" #studentInput [matAutocomplete]="autoStudent" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+            <mat-autocomplete #autoStudent="matAutocomplete" (optionSelected)="selected($event)">
+                <mat-option *ngIf="isLoadingStudents" class="is-loading">
+                    <mat-spinner diameter="50"></mat-spinner>
+                </mat-option>
+                <ng-container *ngIf="!isLoadingStudents">
+                    <mat-option *ngFor="let student of filteredStudents" [value]="student.email">
+                        <span>{{student.name}} {{student.lastName}}</span> |
+                        <small>email: {{student.email}}</small>
+                    </mat-option>
+                </ng-container>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayoutAlign="space-evenly">
+    <button mat-raised-button (click)="closeDialog()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="doAction()">{{action}}</button>
+</mat-dialog-actions>

@@ -1,0 +1,91 @@
+<div class="overlay" *ngIf="pizzasLoading">
+    <div class="Center">
+        <mat-spinner diameter="50" style="margin:0 auto;"></mat-spinner>
+    </div>
+</div>
+
+<div fxLayoutGap="10px" fxLayout="column" [ngStyle]="{'width' : '100%', 'margin-top.px' : '60'}" fxLayoutAlign="start center">
+
+    <div [ngStyle]="{'width' : '70%'}" fxLayout="column" fxLayoutGap="10px">
+
+        <div class="d-flex flex-row justify-content-start align-items-center">
+            <mat-form-field>
+                <mat-label>Filter Events</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Enter the event title" #filterInput>
+            </mat-form-field>
+        </div>
+
+        <div class="cards-container" *ngFor="let pizza of filteredPizzas">
+
+            <mat-card class="example-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image" fxLayoutAlign="center center">
+                        <mat-icon color="warn">event</mat-icon>
+                    </div>
+                    <mat-card-title>{{pizza.title | titlecase}}</mat-card-title>
+                    <mat-card-subtitle>
+                        Presenter :
+                        <button mat-raised-button (click)="openPersonDialog(pizza.presenter)">
+                            {{pizza.presenter.name | titlecase}} {{pizza.presenter.lastName | titlecase}}
+                        </button>
+                    </mat-card-subtitle>
+                    <mat-card-subtitle fxLayoutGap="20px" fxLayout="row">
+                        <span>Date: {{pizza.date | date: 'short'}}</span>
+                        <span>Duration: {{pizza.duration.hours}}H{{pizza.duration.minutes}}mn</span>
+                    </mat-card-subtitle>
+                    <mat-card-subtitle>Places Left: {{pizza.placesLeft}}/{{pizza.placesLeft + pizza.subscribers.length}} place
+                    </mat-card-subtitle>
+                </mat-card-header>
+
+                <mat-card-content fxLayoutGap="20px" fxLayout="column">
+                    <div>
+                        <p style="text-align: center;">
+                            {{pizza.description}}
+                        </p>
+                    </div>
+
+                    <div fxLayout="column" fxLayoutGap="5px" *ngIf="pizza.subscribers.length !== 0">
+                        <span>Subscriptions : </span>
+
+                        <div class="d-flex flex-wrap" fxLayoutGap="10px">
+                            <div *ngFor="let subscriber of pizza.subscribers" fxLayoutAlign="center center">
+                                <a class="personLink" (click)="openPersonDialog(subscriber)">
+                                    {{subscriber.name | titlecase}} {{subscriber.lastName | titlecase}}
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div fxLayout="column" fxLayoutGap="5px" *ngIf="pizza.waitingList.length !== 0">
+                        <span>Waiting List : </span>
+
+                        <div class="d-flex flex-wrap" fxLayoutGap="10px">
+                            <div *ngFor="let waiter of pizza.waitingList" fxLayoutAlign="center center">
+                                <a class="personLink" (click)="openPersonDialog(waiter)">
+                                    {{waiter.name | titlecase}} {{waiter.lastName | titlecase}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </mat-card-content>
+                <mat-divider></mat-divider>
+                <mat-card-actions fxLayoutAlign="center center" *ngIf="pizza.isSubscribed">
+                    <button mat-raised-button color="primary" (click)="unSubscribe(pizza)">
+                        <span>unSubscribe</span>
+                    </button>
+                </mat-card-actions>
+                <mat-card-actions fxLayoutAlign="center center" *ngIf="!pizza.isSubscribed">
+                    <button mat-raised-button color="primary" (click)="subscribe(pizza)">
+                        <span *ngIf="pizza.placesLeft > 0">Subscribe</span>
+                        <span *ngIf="pizza.placesLeft <= 0">Subscribe To Waiting List</span>
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+
+        </div>
+
+    </div>
+
+</div>

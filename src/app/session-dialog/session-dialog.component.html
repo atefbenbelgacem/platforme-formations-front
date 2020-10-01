@@ -1,0 +1,75 @@
+<h1 mat-dialog-title>Sessions Table Action :: <strong>{{action}}</strong></h1>
+
+<mat-dialog-content>
+
+    <form [formGroup]="actionForm" fxFlex="100" fxLayout="column">
+
+        <mat-form-field>
+            <mat-label>Enter Session title</mat-label>
+            <input matInput formControlName="title" required #titleIinput maxlength="30" placeholder="Ex. my awsome session" [(ngModel)]="local_data.title">
+            <mat-hint align="end">{{titleIinput.value?.length || 0}}/30</mat-hint>
+            <mat-error *ngIf="f.title.errors">the session's title is required</mat-error>
+        </mat-form-field>
+
+        <div fxLayout="column" class="mt-3">
+            <p class="mb-0">Session Date&Time : </p>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="flex-start" fxLayoutGap="10px" fxLayoutGap.xs="0px" fxFlex="100">
+                <mat-form-field fxFlex="40">
+                    <mat-label>Enter date</mat-label>
+                    <input matInput required [matDatepicker]="picker" [matDatepickerFilter]="datesFilter" [(ngModel)]="local_data.date" formControlName="date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="f.date.errors">the session's date is required</mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="30">
+                    <mat-label>Select Hours</mat-label>
+                    <mat-select [(ngModel)]="selectedTimeHours" name="hours" formControlName="dateHours">
+                        <mat-option *ngFor="let choice of timeChoice" [value]="choice.value">
+                            {{choice.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="f.dateHours.errors">the session's time is required</mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="30">
+                    <mat-label>Select Minutes</mat-label>
+                    <mat-select [(ngModel)]="selectedTimeMinutes" name="minutes" formControlName="dateMinutes">
+                        <mat-option *ngFor="let choice of minutesChoice" [value]="choice.value">
+                            {{choice.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="f.dateMinutes.errors">the session's time is required</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div fxLayout="column" class="mt-3">
+            <p class="mb-0">Session Duration : </p>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="flex-start" fxLayoutGap="20px" fxLayoutGap.xs="0px">
+                <mat-form-field>
+                    <mat-label>Select Hours</mat-label>
+                    <mat-select [(ngModel)]="selectedHoursValue" name="hours" formControlName="hours">
+                        <mat-option *ngFor="let choice of hoursChoice" [value]="choice.value">
+                            {{choice.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="f.hours.errors">please provide the session's duration</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Select Minutes</mat-label>
+                    <mat-select [(ngModel)]="selectedMinutesValue" name="minutes" formControlName="minutes">
+                        <mat-option *ngFor="let choice of minutesChoice" [value]="choice.value">
+                            {{choice.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="f.minutes.errors">please provide the session's duration</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayoutAlign="space-evenly">
+    <button mat-raised-button (click)="closeDialog()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="doAction()">{{action}}</button>
+</mat-dialog-actions>

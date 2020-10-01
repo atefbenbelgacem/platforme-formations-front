@@ -1,0 +1,51 @@
+<div class="overlay" *ngIf="actionLoading">
+    <div class="Center">
+        <mat-spinner diameter="50" style="margin:0 auto;"></mat-spinner>
+    </div>
+</div>
+
+<div class="intro-container" fxLayoutAlign="center center" *ngIf="introLayout && currentSession">
+    <mat-card class="mat-card-container mat-elevation-z8" fxLayout="column" fxLayoutAlign="center center">
+        <mat-card-header fxLayoutAlign="center center">
+            <mat-card-title style="text-align: center;">{{currentSession.title}} Quiz</mat-card-title>
+            <mat-card-subtitle fxLayoutAlign="center center" fxLayout="column">
+                <span>How well do you know {{currentSession.title}}?</span>
+                <span>Take the quiz and find out!</span>
+            </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <p>Take this awesome quiz that will help improve your understanding of {{currentSession.title}}. See if you can beat the clock! The timed questionnaire comes with automatic scoring provides you with a final score along with a summary of your
+                answers. Practice to increase your knowledge. Good luck and have fun with this quiz.
+            </p>
+        </mat-card-content>
+        <mat-card-actions fxLayoutAlign="center center">
+            <button mat-raised-button type="button" color="primary" class="startQuizz" (click)="startQuiz()">Start
+                Quiz!</button>
+        </mat-card-actions>
+    </mat-card>
+</div>
+
+<div class="intro-container" fxLayoutAlign="center center" *ngIf="!introLayout && quizz">
+    <mat-card class="mat-card-container mat-elevation-z8" fxLayout="column" fxLayoutAlign="center center" *ngFor="let question of filteredQuestions;">
+        <mat-card-header fxLayoutAlign="center center" class="w-100">
+            <mat-card-title style="text-align: center;">{{currentSession.title}} Quiz</mat-card-title>
+            <mat-card-subtitle fxLayoutAlign="center center" fxLayout="column">
+                <span>Question {{pager.index + 1}} of {{pager.count}}</span>
+                <span>Time: {{ellapsedTime}} / {{duration}}</span>
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content fxLayout="column" fxLayoutAlign="center center" class="w-100">
+            <h3 class="w-50" style="text-align: left;">{{pager.index + 1}}. {{question.question}}</h3>
+            <div class="w-50" fxLayout="column" fxLayoutAlign="center start">
+                <mat-checkbox *ngFor="let choice of question.choices" class="mt-2" (change)="onSelect($event.checked, choice)">
+                    {{choice}}
+                </mat-checkbox>
+            </div>
+        </mat-card-content>
+        <mat-card-actions fxLayoutAlign="center center" fxLayoutGap="20px">
+            <button mat-raised-button type="button" color="primary" (click)="onSubmit()">Submit</button>
+            <button mat-raised-button type="button" color="accent" [disabled]="pager.index === quizz.length-1" (click)="next(pager.index + 1)">Next-></button>
+        </mat-card-actions>
+    </mat-card>
+</div>
