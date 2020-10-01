@@ -9,12 +9,11 @@ import { UserDialogComponent } from '../user-dialog/user-dialog.component';
 @Component({
   selector: 'app-veille',
   templateUrl: './veille.component.html',
-  styleUrls: ['./veille.component.css']
+  styleUrls: ['./veille.component.css'],
 })
 export class VeilleComponent implements OnInit {
-
-  actionLoading: boolean = false
-  veilles: VeilleEvent[]
+  actionLoading: boolean = false;
+  veilles: VeilleEvent[];
   currentUser: User;
   filteredVeilles: VeilleEvent[];
 
@@ -22,39 +21,44 @@ export class VeilleComponent implements OnInit {
     private readonly veilleService: VeilleEventService,
     public dialog: MatDialog,
     private readonly snackService: SnackBarService
-  ) { 
-    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser')).user
+  ) {
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser')).user;
   }
 
   ngOnInit(): void {
-    this._getAllVeilles()
+    this._getAllVeilles();
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.filteredVeilles = this.veilles.filter(veille=>{
-      return veille.title.trim().toLowerCase().includes(filterValue.trim().toLowerCase())
-    })
+    this.filteredVeilles = this.veilles.filter((veille) => {
+      return veille.title
+        .trim()
+        .toLowerCase()
+        .includes(filterValue.trim().toLowerCase());
+    });
   }
 
   openPersonDialog(person: User) {
     const dialogRef = this.dialog.open(UserDialogComponent, {
-      width: "350px",
-      data: person
+      width: '350px',
+      data: person,
     });
   }
 
   private _getAllVeilles() {
-     this.actionLoading = true
-    this.veilleService.getVeilleByPole(this.currentUser.pole._id).subscribe(data => {
-      this.actionLoading = false
-      console.log(data)
-      this.veilles = data
-      this.filteredVeilles = this.veilles
-    }, error => {
-      this.actionLoading = false
-      this.snackService.openSnackBar('an error has occured')
-    })
+    this.actionLoading = true;
+    this.veilleService.getVeilleByPole(this.currentUser.pole._id).subscribe(
+      (data) => {
+        this.actionLoading = false;
+        console.log(data);
+        this.veilles = data;
+        this.filteredVeilles = this.veilles;
+      },
+      (error) => {
+        this.actionLoading = false;
+        this.snackService.openSnackBar('an error has occured');
+      }
+    );
   }
-
 }
