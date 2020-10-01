@@ -1,0 +1,87 @@
+<div class="overlay" *ngIf="actionLoading">
+  <div class="Center">
+    <mat-spinner diameter="50" style="margin: 0 auto"></mat-spinner>
+  </div>
+</div>
+<div class="example-container" fxLayoutAlign="center">
+  <mat-card class="example-card" fxLayout="column" fxLayoutGap="40px">
+    <div fxLayout="row" fxFlex fxLayoutAlign="space-evenly">
+      <div style="flex: 1 1 0%" fxFlex>
+        <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Enter the pole name"
+            #filterInput
+          />
+        </mat-form-field>
+      </div>
+
+      <div style="flex: 1 1 0%" fxFlex fxLayoutAlign="end">
+        <button
+          style="width: 150px; height: 40px"
+          mat-raised-button
+          color="primary"
+          matTooltip="Add new Pole"
+          matTooltipPosition="after"
+          (click)="openDialog('Add', {})"
+        >
+          <span class="mr-2">New Pole</span>
+          <mat-icon>add_circle</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort #polesTable>
+        <!-- ID Column -->
+        <ng-container matColumnDef="index">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+          <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element" fxLayoutGap="20px">
+            <button
+              mat-raised-button
+              color="accent"
+              matTooltip="Edit Pole"
+              matTooltipPosition="left"
+              (click)="openDialog('Update', element)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-raised-button
+              color="warn"
+              matTooltip="Delete Pole"
+              matTooltipPosition="left"
+              (click)="deleteRowData(element)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">
+            No data matching the filter "{{ filterInput.value }}"
+          </td>
+        </tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator>
+    </div>
+  </mat-card>
+</div>

@@ -15,6 +15,7 @@ import { AdminVeilleComponent } from './admin-veille/admin-veille.component';
 import { PizzaUComponent } from './pizza-u/pizza-u.component';
 import { VeilleComponent } from './veille/veille.component';
 import { UserComponent } from './user/user.component';
+import { AdminPolesComponent } from './admin-poles/admin-poles.component';
 
 
 const routes: Routes = [
@@ -68,6 +69,11 @@ const routes: Routes = [
         component: UserComponent,
         canActivate: [AuthGuard, AdminGuard]
       },
+      {
+        path: 'poles',
+        component: AdminPolesComponent,
+        canActivate: [AuthGuard, AdminGuard]
+      }
     ]
   },
   {

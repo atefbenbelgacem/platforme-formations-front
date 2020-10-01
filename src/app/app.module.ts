@@ -34,6 +34,8 @@ import { PizzaUComponent } from './pizza-u/pizza-u.component';
 import { VeilleComponent } from './veille/veille.component';
 import { UserComponent } from './user/user.component';
 import { UserEditDialogComponent } from './user-edit-dialog/user-edit-dialog.component';
+import { AdminPolesComponent } from './admin-poles/admin-poles.component';
+import { PolesDialogComponent } from './poles-dialog/poles-dialog.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,9 @@ import { UserEditDialogComponent } from './user-edit-dialog/user-edit-dialog.com
     PizzaUComponent,
     VeilleComponent,
     UserComponent,
-    UserEditDialogComponent
+    UserEditDialogComponent,
+    AdminPolesComponent,
+    PolesDialogComponent
   ],
   imports: [
     BrowserModule,

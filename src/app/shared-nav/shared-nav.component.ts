@@ -87,6 +87,11 @@ export class SharedNavComponent implements OnInit, OnDestroy {
       displayName: "Users",
       iconName: "people",
       route: "/users"
+    },
+    {
+      displayName: "Poles",
+      iconName: "business",
+      route: "/poles"
     }
   ];
 

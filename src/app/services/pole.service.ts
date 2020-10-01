@@ -24,4 +24,27 @@ export class PoleService {
       catchError(this.handleError)
     );
   }
+
+  add(data: Pole): Observable<Pole> {
+    return this.http.post<Pole>(this.apiurl, data).pipe(
+      tap(),
+      catchError(this.handleError)
+    )
+  }
+
+  update(poleId: string, data: Pole): Observable<Pole> {
+    const url = `${this.apiurl}/${poleId}`
+    return this.http.put<Pole>(url, data).pipe(
+      tap(),
+      catchError(this.handleError)
+    )
+  }
+
+  delete(poleId: string): Observable<Pole> {
+    const url = `${this.apiurl}/${poleId}`
+    return this.http.delete<Pole>(url).pipe(
+      tap(),
+      catchError(this.handleError)
+    )
+  }
 }
