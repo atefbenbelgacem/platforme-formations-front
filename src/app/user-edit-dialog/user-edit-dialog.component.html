@@ -1,62 +1,98 @@
-<h1 mat-dialog-title>Users Table Action :: <strong>{{action}}</strong></h1>
+<h1 mat-dialog-title>
+  Users Table Action :: <strong>{{ action }}</strong>
+</h1>
 
 <mat-dialog-content>
+  <form
+    [formGroup]="actionForm"
+    (ngSubmit)="onSubmit()"
+    fxFlex="100"
+    fxLayout="column"
+  >
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" required placeholder="Ex. John" />
+      <mat-error>name is required</mat-error>
+    </mat-form-field>
 
-    <form [formGroup]="actionForm" (ngSubmit)="onSubmit()" fxFlex="100" fxLayout="column">
+    <mat-form-field>
+      <mat-label>LastName</mat-label>
+      <input
+        matInput
+        formControlName="lastName"
+        required
+        placeholder="Ex. Doe"
+      />
+      <mat-error>lastName is required</mat-error>
+    </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name" required placeholder="Ex. John">
-            <mat-error>name is required</mat-error>
-        </mat-form-field>
+    <mat-form-field *ngIf="action === 'Add'">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        formControlName="email"
+        required
+        placeholder="Ex. JohnDoe@email.com"
+      />
+      <mat-error>Please provide a valid email address</mat-error>
+    </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>LastName</mat-label>
-            <input matInput formControlName="lastName" required placeholder="Ex. Doe">
-            <mat-error>lastName is required</mat-error>
-        </mat-form-field>
+    <mat-form-field *ngIf="action === 'Add'">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        formControlName="password"
+        required
+        [type]="hide ? 'password' : 'text'"
+      />
+      <mat-icon class="password-visibility" matSuffix (click)="hide = !hide">{{
+        hide ? "visibility_off" : "visibility"
+      }}</mat-icon>
+      <mat-error>Password is missing or too short</mat-error>
+    </mat-form-field>
 
-        <mat-form-field *ngIf="action === 'Add'">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" required placeholder="Ex. JohnDoe@email.com">
-            <mat-error>Please provide a valid email address</mat-error>
-        </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Pole</mat-label>
+      <mat-select name="poleSelect" formControlName="pole">
+        <mat-option *ngFor="let pole of poles" [value]="pole._id">
+          {{ pole.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error>please provide the user's pole</mat-error>
+    </mat-form-field>
 
-        <mat-form-field *ngIf="action === 'Add'">
-            <mat-label>Password</mat-label>
-            <input matInput formControlName="password" required>
-            <mat-error>Password is missing or too short</mat-error>
-        </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Role</mat-label>
+      <mat-select name="roleSelect" formControlName="roleName">
+        <mat-option *ngFor="let role of roles" [value]="role.value">
+          {{ role.viewValue }}
+        </mat-option>
+      </mat-select>
+      <mat-error>please provide the user's role</mat-error>
+    </mat-form-field>
 
-        <mat-form-field class="example-full-width">
-            <mat-label>Pole</mat-label>
-            <mat-select name="poleSelect" formControlName="pole">
-                <mat-option *ngFor="let pole of poles" [value]="pole._id">
-                    {{pole.name}}
-                </mat-option>
-            </mat-select>
-            <mat-error>please provide the user's pole</mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="example-full-width">
-            <mat-label>Role</mat-label>
-            <mat-select name="roleSelect" formControlName="roleName">
-                <mat-option *ngFor="let role of roles" [value]="role.value">
-                    {{role.viewValue}}
-                </mat-option>
-            </mat-select>
-            <mat-error>please provide the user's role</mat-error>
-        </mat-form-field>
-
-        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" class="mt-4 mb-2">
-            <button mat-raised-button type="button" [style.width.px]="150" (click)="closeDialog()">
-                Cancel
-            </button>
-            <button mat-raised-button type="submit" color="primary" [style.width.px]="150">
-                <span>{{action}} User</span>
-            </button>
-        </div>
-
-    </form>
-
+    <div
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      fxLayoutGap="20px"
+      class="mt-4 mb-2"
+    >
+      <button
+        mat-raised-button
+        type="button"
+        [style.width.px]="150"
+        (click)="closeDialog()"
+      >
+        Cancel
+      </button>
+      <button
+        mat-raised-button
+        type="submit"
+        color="primary"
+        [style.width.px]="150"
+      >
+        <span>{{ action }} User</span>
+      </button>
+    </div>
+  </form>
 </mat-dialog-content>

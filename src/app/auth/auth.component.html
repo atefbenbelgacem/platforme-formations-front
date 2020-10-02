@@ -1,32 +1,55 @@
 <mat-card class="mat-elevation-z10">
-    <mat-card-content>
-        <mat-card-header fxLayoutAlign="center center">
-            <div fxLayoutAlign="center center">
-                <img mat-card-image src="https://i.ibb.co/ZGwMb2Q/Webp-net-resizeimage.png" alt="Logo proxym-it">
-            </div>
-        </mat-card-header>
-        <mat-divider></mat-divider>
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" fxLayout="column" fxLayoutGap="30px">
-            <h2>Login</h2>
-            <mat-form-field appearance="fill">
-                <mat-label>Email</mat-label>
-                <input matInput placeholder="Ex. name@proxym.com" formControlName="username" required>
-                <mat-error>
-                    Please provide a valid email address
-                </mat-error>
-
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Password</mat-label>
-                <input matInput type="password" placeholder="Password" formControlName="password" required>
-                <mat-error>
-                    Password is missing or too short
-                </mat-error>
-            </mat-form-field>
-            <button mat-raised-button color="primary" [disabled]="loading" [style.width.px]="150">
-                <mat-spinner *ngIf="loading" color="warn" diameter="40"></mat-spinner>
-                <span>Login</span>
-            </button>
-        </form>
-    </mat-card-content>
+  <mat-card-content>
+    <mat-card-header fxLayoutAlign="center center">
+      <div fxLayoutAlign="center center">
+        <img
+          mat-card-image
+          src="https://i.ibb.co/ZGwMb2Q/Webp-net-resizeimage.png"
+          alt="Logo proxym-it"
+        />
+      </div>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+      fxLayout="column"
+      fxLayoutGap="30px"
+    >
+      <h2>Login</h2>
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          placeholder="Ex. name@proxym.com"
+          formControlName="username"
+          required
+        />
+        <mat-error> Please provide a valid email address </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          placeholder="Password"
+          formControlName="password"
+          required
+        />
+        <mat-icon class="password-visibility" matSuffix (click)="hide = !hide">{{
+          hide ? "visibility_off" : "visibility"
+        }}</mat-icon>
+        <mat-error> Password is missing or too short </mat-error>
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="loading"
+        [style.width.px]="150"
+      >
+        <mat-spinner *ngIf="loading" color="warn" diameter="40"></mat-spinner>
+        <span>Login</span>
+      </button>
+    </form>
+  </mat-card-content>
 </mat-card>
